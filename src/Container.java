@@ -10,7 +10,7 @@ public class Container implements IContainer {
         public Object resolvedSingleInstance;
     }
 
-    private final Map<Object, Binding> _bindings = new HashMap<Object, Binding>();
+    private final Map<Object, Binding> _bindings = new HashMap<>();
 
     public IContainer bind(Object key, IContainer.IContainerDependentResolver resolver, boolean isSingleInstance)
     {
@@ -34,12 +34,7 @@ public class Container implements IContainer {
 
     public IContainer bind(Object key, final IIndependentResolver resolver, boolean isSingleInstance)
     {
-        return bind(key, new IContainerDependentResolver() {
-            @Override
-            public Object resolve(IContainer container) {
-                return resolver.resolve();
-            }
-        }, isSingleInstance);
+        return bind(key, container -> { return resolver.resolve(); }, isSingleInstance);
     }
 
     public IContainer bind(Object key, final IIndependentResolver resolver) {
